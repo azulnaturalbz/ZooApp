@@ -1,8 +1,10 @@
 package org.silvatech.zooapp
 
 import android.content.Context
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v4.content.ContextCompat.startActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -29,7 +31,18 @@ class MainActivity : AppCompatActivity() {
         tvListAnimal.adapter= adapter
 
     }
-    class AnimalsAdapter:BaseAdapter{
+
+    fun delete(index:Int){
+        listOfAnimals.removeAt(index)
+        adapter!!.notifyDataSetChanged()
+    }
+
+    fun add(index:Int){
+        listOfAnimals.add(index,listOfAnimals[index])
+        adapter!!.notifyDataSetChanged()
+    }
+
+    inner class AnimalsAdapter:BaseAdapter{
         var listOfAnimals=ArrayList<Animal>()
         var context:Context?=null
         constructor(context:Context, listOfAnimals: ArrayList<Animal>):super(){
@@ -44,14 +57,33 @@ class MainActivity : AppCompatActivity() {
                 var myView = inflator.inflate(R.layout.animal_killer_ticket, null)
                 myView.tvName.text = animal.name!!
                 myView.tvDesc.text = animal.desc!!
-                myView.ivAnimalImage.setImageResource(animal.image!!)
+                myView.ivAnimalmage.setImageResource(animal.image!!)
+                myView.ivAnimalmage.setOnClickListener{
+                    add(position)
+//                      delete(position)
+//                    val intent = Intent(context,AnimalDetails::class.java)
+//                    intent.putExtra("name", animal.name!!)
+//                    intent.putExtra("desc",animal.desc!!)
+//                    intent.putExtra("image", animal.image!!)
+//                    context!!.startActivity(intent)
+
+                }
                 return myView
             }else {
                 var inflator = context!!.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
                 var myView = inflator.inflate(R.layout.animal_ticket, null)
                 myView.tvName.text = animal.name!!
                 myView.tvDesc.text = animal.desc!!
-                myView.ivAnimalImage.setImageResource(animal.image!!)
+                myView.ivAnimalmage.setImageResource(animal.image!!)
+                myView.ivAnimalmage.setOnClickListener{
+                    add(position)
+//                    delete(position)
+//                    val intent = Intent(context,AnimalDetails::class.java)
+//                    intent.putExtra("name", animal.name!!)
+//                    intent.putExtra("desc",animal.desc!!)
+//                    intent.putExtra("image", animal.image!!)
+//                    context!!.startActivity(intent)
+                }
                 return myView
             }
         }
